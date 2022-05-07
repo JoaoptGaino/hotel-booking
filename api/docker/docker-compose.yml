@@ -1,0 +1,11 @@
+version: '3'
+services:
+  hotel-booking-db:
+    container_name: hotel-booking-db
+    image: postgres:13.4-alpine
+    environment:
+      - 'POSTGRES_DB=hotel_booking'
+      - 'POSTGRES_USER=root'
+      - 'POSTGRES_PASSWORD=root'
+    ports:
+      - '5432:5432'

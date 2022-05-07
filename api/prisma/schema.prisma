@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Person {
+  id             String @id @default(uuid())
+  name           String
+  identification String @unique
+  phoneNumber    String @map("phone_number")
+
+  roomId String? @unique @map("room_id")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  Room Room? @relation(fields: [roomId], references: [id])
+
+  RoomPersonBooking RoomPersonBooking?
+  @@map("person")
+}
+
+model Room {
+  id        String   @id @default(uuid())
+  number    String   @unique
+  available Boolean  @default(true)
+  roomType  RoomType
+
+  price Decimal
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  Person              Person?
+  RoomCharacteristics RoomCharacteristics[]
+
+
+  RoomPersonBooking RoomPersonBooking?
+  @@map("room")
+}
+
+model RoomCharacteristics {
+  id     String @id @default(uuid())
+  roomId String
+  name   String
+
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  Room Room @relation(fields: [roomId], references: [id])
+
+  @@map("room_characteristics")
+}
+
+model RoomPersonBooking {
+  id String @id @default(uuid())
+
+  roomId   String @unique
+  personId String @unique
+  days     Int
+
+  startDate DateTime
+  endDate   DateTime
+
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  Room      Room      @relation(fields: [roomId], references: [id])
+  Person    Person    @relation(fields: [personId], references: [id])
+}
+
+enum RoomType {
+  SIMPLE
+  DELUXE
+  PREMIUM
+}
