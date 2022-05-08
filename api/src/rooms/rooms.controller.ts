@@ -56,8 +56,13 @@ export class RoomsController {
     return this.roomsService.remove(id);
   }
 
-  @Post('/:id/room-person-booking')
-  bookRoom(@Param('id') id: string, @Body() bookRoomDto: BookRoomDto) {
-    return this.bookRoomService.run(id, bookRoomDto);
+  @Post(':id/room-person-booking/check-in')
+  checkIn(@Param('id') id: string, @Body() bookRoomDto: BookRoomDto) {
+    return this.bookRoomService.checkIn(id, bookRoomDto);
+  }
+
+  @Post(':id/room-person-booking/check-out')
+  checkOut(@Param('id') id: string) {
+    return this.bookRoomService.checkOut(id);
   }
 }
