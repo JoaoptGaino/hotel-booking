@@ -1,7 +1,7 @@
 import { Prisma } from '.prisma/client';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { getPaginationQueryData } from 'src/common/dto/pagination-query.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { getPaginationQueryData } from '../../common/dto/pagination-query.dto';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateRoomDto } from '../dto/create-room.dto';
 import { FindAllRoomsDto } from '../dto/find-all-rooms.dto';
 import { UpdateRoomDto } from '../dto/update-room.dto';
